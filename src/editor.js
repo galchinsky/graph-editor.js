@@ -22,11 +22,13 @@ function stop_loop() {
 function draw() {
     var curtime = (new Date).getTime();
     ctx.clearRect(0,0,SIZE.x,SIZE.y);
+    beforeDraw(ctx, SIZE);
     display_graph();
     if (SHOWFPS) {
         ctx.fillText((1000/(curtime - last_frame)).toFixed(1), 10, 10);
     }
     last_frame = curtime;
+
     //function is time intensive don't do it too often
     //if (lastcheck < curtime - 10000){
     //    controller.find_closest();
@@ -124,5 +126,14 @@ return {
             }
         }
 	    circular_layout();
+    },
+
+    update_draw : function () {
+        draw();
+    },
+
+    set_start : function(index) {
+        nodes[index].playing = true;
+        controller.make_start(nodes[index]);
     }
 };

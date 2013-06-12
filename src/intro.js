@@ -27,4 +27,7 @@ var edge_list = [], nodes = [], removed_edges = [],
     canvastag,
     ctx,
     loop_interval,
-    last_frame;
+    last_frame,
+    keyCount = options.keyCount || 0,
+    onEdit = options.onEdit || function(){};
+    beforeDraw = options.beforeDraw || function(){};

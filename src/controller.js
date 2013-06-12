@@ -1,5 +1,5 @@
 Controller = function() {
-  var hit_node, selected_object, dragging_node, dragging_frozen_flag, closest,
+  var hit_node, start_object, selected_object, dragging_node, dragging_frozen_flag, closest,
       mouse = new Point(), lastcheck = 0;
     return {
         select_object: function(obj) {
@@ -13,6 +13,15 @@ Controller = function() {
             selected_object = obj;
             obj.selected = true;
             update_infobox(obj);
+            onEdit({nodes: nodes, edge_list: edge_list, SIZE: SIZE});
+        },
+        make_start: function(object) {
+            if (start_object) {
+                start_object.start_point = false;
+            }
+            start_object = object;
+            start_object.start_point = true;
+            onEdit({nodes: nodes, edge_list: edge_list, SIZE: SIZE});
         },
         set_mouse: function(e) {
             var obj = e.currentTarget, offset = $(obj).offset();
@@ -23,6 +32,7 @@ Controller = function() {
                 selected_object.selected = false;
                 selected_object = undefined;
                 update_infobox();
+                onEdit({nodes: nodes, edge_list: edge_list, SIZE: SIZE});
             }
         },
         drag_node_start: function(node) {
@@ -39,6 +49,7 @@ Controller = function() {
             dragging_node.set_pos(m);
             if (dragging_node === selected_object) {
                 update_infobox(dragging_node);
+                onEdit({nodes: nodes, edge_list: edge_list, SIZE: SIZE});
             }
         },
         drag_node_stop: function() {
@@ -49,6 +60,7 @@ Controller = function() {
             if (!LIVE) {
                 stop_loop();
             }
+            onEdit({nodes: nodes, edge_list: edge_list, SIZE: SIZE});
         },
         find_closest: function() {
             var closest_data, edge;
@@ -152,6 +164,11 @@ Controller = function() {
             }
             if (String.fromCharCode(e.charCode) === 's' && selected_object instanceof Edge) {
                 this.select_object(split(selected_object));
+                onEdit({nodes: nodes, edge_list: edge_list, SIZE: SIZE});
+            }
+            if (String.fromCharCode(e.charCode) === 'q' && selected_object instanceof Vertex) {
+                this.make_start(selected_object);
+                this.unselect_object();
             }
             if (!LIVE) draw();
         },

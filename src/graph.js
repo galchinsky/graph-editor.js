@@ -30,6 +30,9 @@ Vertex = function(pos, label) {
     this.v = Point();
     this.frozen = false;
     this.label = label || next_label();
+    this.start_point = false;
+    this.playing = false;
+    this.way = 0;
 };
 
 Vertex.prototype = {
@@ -57,6 +60,14 @@ Vertex.prototype = {
     display: function() {
         var node_number;
         ctx.strokeStyle = "#000000";
+        if (this.start_point) {
+            ctx.fillStyle = "#0000FF";
+            circle(this.pos.x, this.pos.y, NODE_RADIUS + 10);
+        }
+        if (this.playing) {
+            ctx.fillStyle = "#00FF00";
+            circle(this.pos.x, this.pos.y, NODE_RADIUS + 5);
+        }
         if (this.selected) {
             ctx.fillStyle = "#FF0000";
         } else if (this.closest) {
@@ -115,6 +126,8 @@ Edge = function(node1, node2, multi, label) {
     this.node2 = node2;
     this.multi = multi || 1;
     this.label = label || '{}';
+    this.nextplaying = false;
+    this.laterplaying = false;
 };
 
 Edge.prototype = {
@@ -176,6 +189,13 @@ Edge.prototype = {
         } else {
             ctx.strokeStyle = "#000000";
         }
+        if (this.laterplaying && !this.selected) {
+            ctx.strokeStyle = "#00FF00";
+        }
+        if (this.nextplaying && !this.selected) {
+            ctx.strokeStyle = "#FF0000";
+        }
+
         if (this.node1 === this.node2) {
             this.node1.draw_loop();
         } else {
@@ -368,5 +388,6 @@ function split(edge) {
 function erase_graph() {
     nodes = [];
     edge_list = [];
+    onEdit({nodes: nodes, edge_list: edge_list, SIZE: SIZE});
     draw();
 }

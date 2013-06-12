@@ -40,6 +40,7 @@ function import_from_JSON(JSONdata) {
         edge_list.push(new Edge(dict[data.edges[i][0]], dict[data.edges[i][1]], 1, dict[data.edges[i][2]]));
     }
     graph_name = data.name;
+
     draw();
 }
 

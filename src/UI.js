@@ -37,7 +37,7 @@ function create_controls(div) {
     var tweaks, canvaspos = $(div +' canvas').offset(), buttondiv = div + ' #graph_editor_button_container',
     canvas = $(div +' canvas')[0];
     $(div).prepend('<div id="graph_editor_button_container"></div>');
-    $('<div id="live_button" class="graph_editor_button">live</div>').appendTo(buttondiv).click(toggle_live);
+    /*$('<div id="live_button" class="graph_editor_button">live</div>').appendTo(buttondiv).click(toggle_live);
     $('<div id="tweaks_button" class="graph_editor_button">tweaks</div>').appendTo(buttondiv)
     .toggle(function() {
         $(div).animate({'width': SIZE.x + 310 + 'px'},
@@ -63,7 +63,7 @@ function create_controls(div) {
     });
 
     $('<div id="undo_button" class="graph_editor_button">undo</div>').appendTo(buttondiv)
-    .click(undo_remove).toggleClass('graph_editor_undo_disabled');
+    .click(undo_remove).toggleClass('graph_editor_undo_disabled');*/
 
     $('<div id="reset_button" class="graph_editor_button">reset</div>').appendTo(buttondiv)
     .click(function() {
